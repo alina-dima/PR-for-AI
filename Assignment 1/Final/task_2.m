@@ -58,15 +58,17 @@ hold on
 % 3
 disp('Mean and variance of set S:')
 mu_S = sum(S)/length(S);
-sigma_S = sqrt(var(S));
+var_S = var(S);
+sigma_S = sqrt(var_S);
 disp(mu_S)
-disp(sigma_S)
+disp(var_S)
 
 disp('Mean and variance of set D:')
 mu_D = sum(D)/length(D);
-sigma_D = sqrt(var(D));
+var_D = var(D);
+sigma_D = sqrt(var_D);
 disp(mu_D)
-disp(sigma_D)
+disp(var_D)
 
 %{
 x_S = linspace(min(S),max(S),100);
