@@ -12,7 +12,7 @@ S = zeros(1, reps);
 for rep = 1:reps
     file = datasample(seed, filenames, 1);
     load(file);
-    y = datasample(1:20,2);
+    y = datasample(seed, 1:20,2);
     r1 = iriscode(y(1), :);
     r2 = iriscode(y(2), :);
     S(1, rep) = pdist([r1;r2], 'hamming');
