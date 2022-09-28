@@ -8,6 +8,8 @@ y2 = normpdf(x, mu2, sqrt(var));
 plot(x, y1);
 hold on
 plot(x, y2);
+xlabel('x');
+ylabel('Density');
 close
 
 mu2 = [7, 9, 9.3, 11];
@@ -36,9 +38,9 @@ fa_data = FP/sum(data(:,1) == 0);
 h_data = TP/sum(data(:,1) == 1);
 
 scatter(fa_data, h_data)
-xlabel('x');
-ylabel('Density');
-legend('mu2 = 5', 'mu2 = 9', 'mu2 = 9.3', 'mu2 = 11', 'outcomes (fa, h)');
+xlabel("False Alarm");
+ylabel("Hit");
+legend('mu2 = 5', 'mu2 = 9', 'mu2 = 11', 'outcomes (fa, h)');
 
 function [fa, h] = roc(mu1, mu2, sigma)
     min_lim = mu1 - 3*sigma;
@@ -46,7 +48,7 @@ function [fa, h] = roc(mu1, mu2, sigma)
     x = [min_lim:0.1:max_lim];
 
     rand_nums = (max_lim-min_lim).*rand(100,1) + min_lim;
-    x_star = sort([datasample(rand_nums, 50, 'replace', false)]');
+    x_star = sort([datasample(rand_nums, 100, 'replace', false)]');
 
     fa = zeros(1, length(x_star));
     h = zeros(1, length(x_star));
