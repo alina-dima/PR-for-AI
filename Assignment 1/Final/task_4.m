@@ -14,11 +14,12 @@ ylabel('y')
 zlabel('z')
 colorbar
 
-P = [10 10; 0 0; 3 4; 6 8].';
-d_M = zeros(1, size(P,2));
-for p_idx=1:size(P,2)
-    d_M(p_idx) = ((P(:,p_idx) - mu.').' *...
-        (Sigma ^ (-1)) *...
-        (P(:,p_idx) - mu.')) ^ (1/2);
+points = [10 10; 0 0; 3 4; 6 8];
+
+for i = 1:length(points)
+   mahalanobis = mahal_dis(points(i,:)', mean', sigma);
 end
-d_M
+
+function mahalanobis = mahal_dis(x, y, cov_mat)
+    mahalanobis = sqrt((x - y)' * inv(cov_mat) * (x - y));
+end
