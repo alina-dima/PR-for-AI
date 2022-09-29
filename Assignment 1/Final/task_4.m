@@ -21,3 +21,4 @@ for p_idx=1:size(P,2)
         (Sigma ^ (-1)) *...
         (P(:,p_idx) - mu.')) ^ (1/2);
 end
+d_M
