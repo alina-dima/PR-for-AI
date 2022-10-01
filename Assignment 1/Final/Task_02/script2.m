@@ -72,8 +72,6 @@ for i = 1:length(inter)
     len1 = length(find(S==elem)); % check occurrence
     len2 = length(find(D==elem));
     overlap = overlap + min(len1, len2);
-    len1
-    len2
 end
 fprintf("Overlap percentage: %f\n", (overlap / reps) * 100);
 fprintf("Overlap occurs at the following distance values:");
