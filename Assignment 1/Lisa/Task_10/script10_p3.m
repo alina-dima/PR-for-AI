@@ -24,9 +24,9 @@ xlabel('\theta'), ylabel('\rho');
 close
 
 black_img = zeros(50, 50);
-black_img(25,25) = 255;
+black_img(25,23) = 255;
 black_img(25,26) = 255;
-black_img(25, 27) = 255;
+black_img(25, 29) = 255;
 imshow(black_img);
 
 [H,T,R] = hough(black_img);
@@ -46,7 +46,7 @@ axis on, axis normal, hold on;
 plot(T(max_peak(2)),R(max_peak(1)),'s','color','red');
 close
 
-lines = houghlines(black_img,T,R,peaks);
+lines = houghlines(black_img,T,R,peaks, 'FillGap',3,'MinLength',1);
 imshow(black_img), hold on
 max_len = 0;
 lines
@@ -54,6 +54,6 @@ lines
 for k = 1:length(lines)
    xy = [lines(k).point1; lines(k).point2];
    xy
-   plot(xy(:,1),xy(:,2),'LineWidth',10,'Color','red');
+   plot(xy(:,1),xy(:,2),'LineWidth',1,'Color','red');
 end
 

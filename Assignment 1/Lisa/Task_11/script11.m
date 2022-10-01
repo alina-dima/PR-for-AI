@@ -3,7 +3,7 @@ load task_11.mat;
 
 K=7;
 data = lab3_2;
-nr_of_classes = 4;
+nr_of_classes = 2;
 
 % Class labels
 class_labels = floor( (0:length(data)-1) * nr_of_classes / length(data) );

@@ -3,13 +3,13 @@ function class = KNN(new_point, K, data, class_labels)
     for idx = 1:length(data)
         distances(idx) = pdist([new_point; data(idx,:)], 'euclidean');
     end
-    [~, max_idx] = maxk(distances, K); % is already sorted
+
+    [~, max_idx] = mink(distances, K); % is already sorted
     classes = unique(class_labels);
     counts = zeros(length(classes), 2);
     for idx = 1:length(counts)
         counts(idx, 1) = classes(idx);
     end
-
 
     if K == 1
         class = class_labels(max_idx);
