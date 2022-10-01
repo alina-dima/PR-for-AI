@@ -2,9 +2,10 @@
 clear
 load('kmeans1.mat')
 for k = [2 4 8]
-    [clusters,means] = kmeans(kmeans1,k,false);
-    plot_clusters(kmeans1,k,clusters,means)
+    [clusters,means, movement_points] = kmeans(kmeans1,k,false);
+    plot_clusters(kmeans1,k,clusters,means, movement_points);
 end
+
 
 %{
 % 2
@@ -30,14 +31,17 @@ sd_error_pp = std(error_pp);
 % Implementation of k-means clustering for the feature vector X
 % with k clusters. The function returns, in order, the index
 % of the cluster that each point of X belongs to.
-function [clusters,means] = kmeans(X,k,plusplus)
+function [clusters,means,movement_points] = kmeans(X,k,plusplus)
     clusters = zeros(size(X,1),1);
+    movement_points = zeros(10000, k, size(X,2));
     if plusplus
         means = initialize_means(X,k);
     else
         means = X(randsample(size(X,1),k,'false'),:);
+        means
     end
     changed = true;
+    count = 1;
     while changed
         changed = false;
         dist = pdist2(X,means);
@@ -53,13 +57,16 @@ function [clusters,means] = kmeans(X,k,plusplus)
             end
         end
         means = sum_terms./nr_terms;
+        movement_points(count,:,:) = means;
+        count = count + 1;
     end
+    movement_points = movement_points(1:count,:,:);
 end
 
 % Given a feature vector X, k clusters and the index of the cluster
 % that each data point belong to, the function plots the points
 % differentiated by cluster alongside their mean.
-function plot_clusters(X,k,clusters,means)
+function plot_clusters(X,k,clusters,means, movement_points)
     % The colors are pre-defined for good distinguishability.
     % For k > 8, more colors should be added.
     clrs = [240 35 85; 60 180 75; 255 225 25; 40 160 230; ...
@@ -81,6 +88,13 @@ function plot_clusters(X,k,clusters,means)
     hold off
     lgd = legend();
     lgd.Layout.Tile = 'east';
+    
+    figure
+    for i = 1:k
+        scatter(movement_points(:,i,1), movement_points(:,i,2),100,clrs(i,:));
+        hold on;
+    end
+    legend()
 end
 
 % The function returns k prototypes to be used as means/centroids
