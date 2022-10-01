@@ -57,8 +57,8 @@ if part2
     plot(fa, h,'LineWidth',2)
     hold on
     scatter(fa_point, h_point, 80, 'filled')
-    mu2 = sort([mu2 min_mu]);
-    ds = sort([ds d]);
+    mu2 = [mu2 min_mu];
+    ds = [ds d];
 end
 
 xlabel("False Alarm");
