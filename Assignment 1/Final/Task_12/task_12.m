@@ -7,14 +7,12 @@ for k = [2 4 8]
 end
 
 
-%{
 % 2
 load('checkerboard.mat')
 k = 100;
 error = zeros(20,1);
 error_pp = zeros(20,1);
 for i = 1:20
-    display(i)
     [clusters,means] = kmeans(checkerboard,k,false);
     [clusters_pp,means_pp] = kmeans(checkerboard,k,true);
     error(i) = quant_error(checkerboard,clusters,means);
@@ -24,8 +22,8 @@ mu_error = mean(error);
 mu_error_pp = mean(error_pp);
 sd_error = std(error);
 sd_error_pp = std(error_pp);
-[h,p] = ttest2(error,error_pp,'Vartype','unequal');
-%}
+[h,p,ci,stat] = ttest2(error,error_pp,'Vartype','unequal');
+display(h), display(p), display(ci), display(stat)
 
 
 % Implementation of k-means clustering for the feature vector X
@@ -119,7 +117,8 @@ function qe = quant_error(X,clusters,means)
     sum_sq_error = 0;
     for i = 1:size(X,1)
         centroid = means(clusters(i),:);
-        sum_sq_error = sum_sq_error + pdist2(X(i,:),centroid);
+        sum_sq_error = sum_sq_error+pdist2(X(i,:),centroid,...
+                                           'squaredeuclidean');
     end
     qe = sum_sq_error/size(X,1);
 end
