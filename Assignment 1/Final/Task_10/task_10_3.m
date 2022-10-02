@@ -1,4 +1,7 @@
-% Part 3
+
+% Task 10 (part 3)
+% Alina, Lisa, Ömer and Nikolai
+
 % 1
 tiledlayout(1,2);
 nexttile

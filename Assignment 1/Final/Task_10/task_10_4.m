@@ -1,4 +1,7 @@
-% Part 4
+
+% Task 10 (part 4)
+% Alina, Lisa, Ömer and Nikolai
+
 % 1
 clear
 image = imread('HeadTool0002.bmp');
