@@ -8,6 +8,7 @@ end
 
 
 % 2
+%{
 load('checkerboard.mat')
 k = 100;
 error = zeros(20,1);
@@ -24,6 +25,7 @@ sd_error = std(error);
 sd_error_pp = std(error_pp);
 [h,p,ci,stat] = ttest2(error,error_pp,'Vartype','unequal');
 display(h), display(p), display(ci), display(stat)
+%}
 
 
 % Implementation of k-means clustering for the feature vector X
@@ -36,7 +38,6 @@ function [clusters,means,movement_points] = kmeans(X,k,plusplus)
         means = initialize_means(X,k);
     else
         means = X(randsample(size(X,1),k,'false'),:);
-        means
     end
     changed = true;
     count = 1;
@@ -58,7 +59,7 @@ function [clusters,means,movement_points] = kmeans(X,k,plusplus)
         movement_points(count,:,:) = means;
         count = count + 1;
     end
-    movement_points = movement_points(1:count,:,:);
+    movement_points = movement_points(1:count-1,:,:);
 end
 
 % Given a feature vector X, k clusters and the index of the cluster
@@ -88,11 +89,19 @@ function plot_clusters(X,k,clusters,means, movement_points)
     lgd.Layout.Tile = 'east';
     
     figure
+    tiledlayout('flow')
+    nexttile
+    hold on
     for i = 1:k
-        scatter(movement_points(:,i,1), movement_points(:,i,2),100,clrs(i,:));
+        scatter(movement_points(:,i,1),movement_points(:,i,2),100,...
+                clrs(i,:),'DisplayName',append('Cluster ',num2str(i)));
+        xlabel('Feature 1')
+        ylabel('Feature 2')
         hold on;
     end
-    legend()
+    hold off
+    lgd = legend();
+    lgd.Layout.Tile = 'east';
 end
 
 % The function returns k prototypes to be used as means/centroids
