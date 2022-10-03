@@ -24,7 +24,7 @@ end
 % b
 D = zeros(1, reps);
 for rep = 1:reps
-    files = datasample(seed, filenames, 2, 'Replace', false); % two different row
+    files = datasample(seed, filenames, 2, 'Replace', false); % two different rows
 
     codes_1 = load(files(1)).iriscode;
     r1 = codes_1(datasample(seed, 1:20, 1), :);
