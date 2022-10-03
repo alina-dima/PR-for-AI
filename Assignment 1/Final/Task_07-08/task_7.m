@@ -22,15 +22,19 @@ for no_A = 1:2
         ylabel('Misclassification error')
         
         figure()
-        scatter(data_A(:,1),data_A(:,2),'filled','DisplayName','Class A')
+        scatter(data_A(:,1),data_A(:,2),'DisplayName','Class A',...
+                'LineWidth',1.5)
         hold on
-        scatter(data_B(:,1), data_B(:,2),'filled','DisplayName','Class B')
+        scatter(data_B(:,1), data_B(:,2),'DisplayName','Class B',...
+                'LineWidth',1.5)
         hold on
-        scatter(prot_all(1:no_A,1),prot_all(1:no_A,2),...
-            'LineWidth',2,'DisplayName','A prototypes')
+        scatter(prot_all(1:no_A,1),prot_all(1:no_A,2),70,'filled',...
+                'DisplayName','A prototypes')
         hold on
-        scatter(prot_all(no_A+1:end,1),prot_all(no_A+1:end,2),...
-             'LineWidth',2,'DisplayName','B prototypes')
+        scatter(prot_all(no_A+1:end,1),prot_all(no_A+1:end,2),70,...
+                'filled','DisplayName','B prototypes')
+        xlabel('Feature 1')
+        ylabel('Feature 2')
         hold on
         legend
         

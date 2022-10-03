@@ -4,38 +4,25 @@ function cross_validation(data_A,data_B,no_A,no_B)
     A_indices = randperm(100);
     B_indices = randperm(100);
     test_E = zeros(1,10);
-    train_E = zeros(9,10);
+    train_E = zeros(1,10);
     for i = 1:10
         [test_A,train_A] = split_test_train(data_A,A_indices,i);
         [test_B,train_B] = split_test_train(data_B,B_indices,i);
         [~,prot_all] = LVQ(train_A,train_B,no_A,no_B);
         test_E(i) = get_error(test_A,test_B,prot_all);
-        for t_idx = 1:10
-            if t_idx < i
-                train_A_fold = train_A(10*(t_idx-1)+1:10*t_idx,:);
-                train_B_fold = train_B(10*(t_idx-1)+1:10*t_idx,:);
-                train_E(i-1,t_idx) = get_error(train_A_fold,...
-                                               train_B_fold,prot_all);
-            elseif t_idx > i
-                train_A_fold = train_A(10*(t_idx-2)+1:10*(t_idx-1),:);
-                train_B_fold = train_B(10*(t_idx-2)+1:10*(t_idx-1),:);
-                train_E(i,t_idx) = get_error(train_A_fold,...
-                                             train_B_fold,prot_all);
-            end
-        end
+        train_E(i) = get_error(train_A,train_B,prot_all);
     end
     display(append("Test error: ",num2str(mean(test_E))))
     figure()
-    train_SD = std(train_E);
-    bar(mean(train_E),'HandleVisibility','off')
-    hold on
-    errorbar(1:10,mean(train_E),-train_SD,train_SD,'Color','black',...
-             'LineStyle','none','LineWidth',1.5,'HandleVisibility','off')
-    yline(mean(test_E),'LineWidth',1.5,'Color','red',...
+    bar(train_E*100,'HandleVisibility','off')
+    ylim([0 max(round(train_E*100)+5)])
+    text(1:length(train_E),train_E*100,num2str(round(train_E*100)')+...
+        "%",'vert','bottom','horiz','center')
+    yline(mean(test_E*100),'LineWidth',1.5,'Color','red',...
           'DisplayName','Test error')
     xlabel('Fold')
-    ylabel('Training error (± 1 SD)')
-    legend()
+    ylabel('Training error (%)')
+    legend
 end
 
 function [test, train] = split_test_train(data,indice_order,test_i)
