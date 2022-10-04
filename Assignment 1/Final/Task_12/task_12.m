@@ -11,7 +11,7 @@ for k = [2 4 8]
 end
 
 % 2
-checkerboard_run = false;
+checkerboard_run = true;
 
 if checkerboard_run == true
     load('checkerboard.mat')
@@ -28,7 +28,8 @@ if checkerboard_run == true
     mu_error_pp = mean(error_pp);
     sd_error = std(error);
     sd_error_pp = std(error_pp);
-    [h,p,ci,stat] = ttest2(error,error_pp,'Vartype','unequal');
+    [h,p,ci,stat] = ttest2(error,error_pp,'Tail','right',...
+                           'Vartype','unequal');
     display(h), display(p), display(ci), display(stat)
 end
 
