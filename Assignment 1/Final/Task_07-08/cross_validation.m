@@ -1,3 +1,7 @@
+
+% Task 8
+% Alina, Lisa, Ömer and Nikolai
+
 function cross_validation(data_A,data_B,no_A,no_B)
     % Each group of [10(i-1)+1, 10i], will be test data once
     % The other [10(n-1)+1, 10n], where n~=i, will be the training data
