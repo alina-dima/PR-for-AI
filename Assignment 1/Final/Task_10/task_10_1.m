@@ -1,4 +1,6 @@
-% Part 1
+% Task 10 (part 1)
+% Alina, Lisa, Ömer and Nikolai
+
 % 1
 clear
 image=imread('Cameraman.tiff');

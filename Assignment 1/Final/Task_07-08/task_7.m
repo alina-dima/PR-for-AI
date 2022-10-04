@@ -1,3 +1,7 @@
+
+% Task 7
+% Alina, Lisa, Ömer and Nikolai
+
 % 1
 data_A = load('data_lvq_A.mat').('matA');
 data_B = load('data_lvq_B.mat').('matB');

@@ -1,3 +1,7 @@
+
+% Task 7 
+% Alina, Lisa, Ömer and Nikolai
+
 function [E, prot_all] = LVQ(data_A,data_B,no_prot_A,no_prot_B)
     prot_A = data_A(randsample(size(data_A,1),no_prot_A,false),:);
     prot_B = data_B(randsample(size(data_B,1),no_prot_B,false),:);
