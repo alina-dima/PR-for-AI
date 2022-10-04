@@ -26,4 +26,5 @@ imshow(contrasted)
 viscircles(strongest_centers,strongest_radii)
 
 % 6
-metric(1:2)
+fprintf("The strongest array peaks in descending order:\n");
+display(metric)
