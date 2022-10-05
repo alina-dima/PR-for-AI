@@ -6,9 +6,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 # TODO: Add imblearn to requirements
 from imblearn.over_sampling import SMOTE  # smote is designed to minimize overfitting due to upsampling,
-
-
-# and training + testing on the same samples.
+                                          # and training + testing on the same samples.
 
 def read_data(data_path):
     df = pd.read_csv(data_path)
