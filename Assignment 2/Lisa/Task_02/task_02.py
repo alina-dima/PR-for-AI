@@ -1,8 +1,11 @@
 import pandas as pd
 import numpy as np
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, f1_score
 
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
+
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 # TODO: Add imblearn to requirements
 from imblearn.over_sampling import SMOTE  # smote is designed to minimize overfitting due to upsampling,
@@ -26,7 +29,6 @@ def read_data(data_path):
 
     return data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, data_test, labels_test
 
-
 def run_model(model, train_data, train_labels, test_data, test_labels):
     model.fit(train_data, train_labels)
     pred = model.predict(test_data)
@@ -41,10 +43,18 @@ def main():
     data_path = './creditcard.csv'
     data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, \
         data_test, labels_test = read_data(data_path)
-    results = run_model(SVC(kernel='linear', decision_function_shape='ovr'), data_train_labeled, labels_train_labeled,
-                        data_test, labels_test)
-    print(results)
+    models = [SVC(kernel='linear', decision_function_shape='ovr'), 
+            SVC(kernel='rbf', decision_function_shape='ovr'), 
+            SVC(kernel='sigmoid', decision_function_shape='ovr'), 
+            GaussianNB(), 
+            LogisticRegression()]
+    model_names = ["Linear SVM", "Rbf SVM", "Sigmoid SVM", "Naive Bayes", "Logisitic Reg"]
 
+    idx = 0
+    for model in models:
+        results = run_model(model, data_train_labeled, labels_train_labeled, data_test, labels_test)
+        print("Model: %.4f \t Accuracy: %.4f \t F1: %.4f" % (model_names[idx], results[0], results[1]))
+        idx += 1
 
 if __name__ == "__main__":
     main()
