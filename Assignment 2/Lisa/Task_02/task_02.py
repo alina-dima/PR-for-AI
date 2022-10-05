@@ -36,11 +36,9 @@ def run_model(model, train_data, train_labels, test_data, test_labels):
     f_1 = f1_score(test_labels, pred)
     return [accuracy, f_1]
 
-
-def main():
-    data_path = './creditcard.csv'
+def try_models(args):
     data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, \
-        data_test, labels_test = read_data(data_path)
+        data_test, labels_test = args
     models = [SVC(kernel='linear', decision_function_shape='ovr'), 
             SVC(kernel='rbf', decision_function_shape='ovr'), 
             SVC(kernel='sigmoid', decision_function_shape='ovr'), 
@@ -51,8 +49,20 @@ def main():
     idx = 0
     for model in models:
         results = run_model(model, data_train_labeled, labels_train_labeled, data_test, labels_test)
-        print("Model: %.4f \t Accuracy: %.4f \t F1: %.4f" % (model_names[idx], results[0], results[1]))
+        print("Model:", model_names[idx], "\t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
         idx += 1
+
+
+def main():
+    data_path = './creditcard.csv'
+    data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, \
+        data_test, labels_test = read_data(data_path)
+    try_models(data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, \
+        data_test, labels_test)
+    model = SVC(kernel='rbf', decision_function_shape='ovr')
+    results = run_model(model, data_train_labeled, labels_train_labeled, data_test, labels_test)
+    print("\t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
+
 
 if __name__ == "__main__":
     main()
