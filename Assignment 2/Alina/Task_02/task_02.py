@@ -5,6 +5,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.semi_supervised import LabelPropagation
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 
 from sklearn.metrics import accuracy_score, f1_score
@@ -54,7 +55,7 @@ def read_data(data_path):
     labels = df["Class"]
     data = df.drop(columns=["Class"])
 
-    sm = SVMSMOTE(sampling_strategy='minority',random_state=42, k_neighbors=5)
+    sm = SMOTE(sampling_strategy='minority',random_state=42, k_neighbors=5)
 
     data_res, labels_res = sm.fit_resample(data, labels)
     # vis_data(data_res, labels_res)
@@ -87,8 +88,8 @@ def main():
     x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = read_data(data_path)
 
     # Selects the baseline classification and SSL models
-    baseline = Model(LogisticRegression(max_iter=200, n_jobs=-1), "Logistic Regression")
-    ssl = Model(LabelPropagation(kernel='knn', n_jobs=-1), "KNN Label Propagation")
+    baseline = Model(RandomForestClassifier(max_depth=200), "Random Forest")
+    ssl = Model(LabelPropagation(kernel='knn'), "KNN Label Propagation")
 
     # Runs classification model on lab train data and tests it
     print("Running baseline model on labeled data...")
@@ -109,6 +110,7 @@ def main():
     print("Model: ", baseline.name, " \t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
     
     ## output
+    ## LR with SVMSMOTE
 #     Running baseline model on labeled data...
 # Model:  Logistic Regression      Accuracy: 0.9890        F1: 0.9890
 
@@ -119,6 +121,19 @@ def main():
 
 # Running baseline model with SSL labels on all data...
 # Model:  Logistic Regression      Accuracy: 0.9874        F1: 0.9874
+
+## Random Forest with SMOTE
+
+# Running baseline model on labeled data...
+# Model:  Random Forest      Accuracy: 0.9996        F1: 0.9996
+
+# Running SSL model...
+# /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/sklearn/semi_supervised/_label_propagation.py:222: RuntimeWarning: invalid value encountered in true_divide
+#   probabilities /= normalizer
+# Model:  KNN Label Propagation    Accuracy: 0.9981        F1: 0.9981
+
+# Running baseline model with SSL labels on all data...
+# Model:  Logistic Regression      Accuracy: 0.9992        F1: 0.9992
 
 if __name__ == "__main__":
     main()
