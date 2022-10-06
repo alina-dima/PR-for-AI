@@ -10,6 +10,42 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE  # SMOTE is designed to minimize overfitting due to upsampling,
                                           # and training + testing on the same samples.
 
+def vis_data(data, labels):
+    ## I copied this code from internet
+    pca = PCA(n_components=3)
+    pca.fit(data) 
+    X_pca = pca.transform(data) 
+
+    ex_variance=np.var(X_pca,axis=0)
+    ex_variance_ratio = ex_variance/np.sum(ex_variance)
+    ex_variance_ratio
+
+
+    Xax = X_pca[:,0]
+    Yax = X_pca[:,1]
+    Zax = X_pca[:,2]
+
+    cdict = {0:'red',1:'green'}
+    labl = {0:'0',1:'1'}
+    marker = {0:'*',1:'o'}
+    alpha = {0:.3, 1:.5}
+
+    fig = plt.figure(figsize=(7,5))
+    ax = fig.add_subplot(111, projection='3d')
+
+    fig.patch.set_facecolor('white')
+    for l in np.unique(labels):
+        ix=np.where(labels==l)
+        ax.scatter(Xax[ix], Yax[ix], Zax[ix], c=cdict[l], s=40,
+                label=labl[l], marker=marker[l], alpha=alpha[l])
+    # for loop ends
+    ax.set_xlabel("First Principal Component", fontsize=14)
+    ax.set_ylabel("Second Principal Component", fontsize=14)
+    ax.set_zlabel("Third Principal Component", fontsize=14)
+
+    ax.legend()
+    plt.show()
+
 def read_data(data_path):
     df = pd.read_csv(data_path)
     df = df.drop(columns=["Amount", "Time"])
@@ -19,6 +55,7 @@ def read_data(data_path):
     sm = SMOTE(random_state=42, k_neighbors=5)
 
     data_res, labels_res = sm.fit_resample(data, labels)
+    vis_data(data_res, labels_res)
     x_train, x_test, y_train, y_test = train_test_split(data_res, labels_res, test_size=0.2,
                                                                         random_state=4, stratify=labels_res)
     x_train_unlab, x_train_lab, y_train_unlab, y_train_lab = \
