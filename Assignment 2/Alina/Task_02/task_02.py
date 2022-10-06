@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 # TODO: Add imblearn to requirements
-from imblearn.over_sampling import SMOTE  # SMOTE is designed to minimize overfitting due to upsampling,
+from imblearn.over_sampling import SMOTE, SVMSMOTE  # SMOTE is designed to minimize overfitting due to upsampling,
                                           # and training + testing on the same samples.
 
 
@@ -21,11 +21,6 @@ def vis_data(data, labels):
     pca = PCA(n_components=3)
     pca.fit(data) 
     X_pca = pca.transform(data) 
-
-    ex_variance=np.var(X_pca,axis=0)
-    ex_variance_ratio = ex_variance/np.sum(ex_variance)
-    ex_variance_ratio
-
 
     Xax = X_pca[:,0]
     Yax = X_pca[:,1]
@@ -59,7 +54,7 @@ def read_data(data_path):
     labels = df["Class"]
     data = df.drop(columns=["Class"])
 
-    sm = SMOTE(random_state=42, k_neighbors=5)
+    sm = SVMSMOTE(sampling_strategy='minority',random_state=42, k_neighbors=5)
 
     data_res, labels_res = sm.fit_resample(data, labels)
     # vis_data(data_res, labels_res)
@@ -92,8 +87,8 @@ def main():
     x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = read_data(data_path)
 
     # Selects the baseline classification and SSL models
-    baseline = Model(LogisticRegression(), "Logistic Regression")
-    ssl = Model(LabelPropagation('knn'), "KNN Label Propagation")
+    baseline = Model(LogisticRegression(max_iter=200, n_jobs=-1), "Logistic Regression")
+    ssl = Model(LabelPropagation(kernel='knn', n_jobs=-1), "KNN Label Propagation")
 
     # Runs classification model on lab train data and tests it
     print("Running baseline model on labeled data...")
@@ -113,6 +108,17 @@ def main():
     results, _ = run_model(baseline.model, x_train, y_train_ssl, x_test, y_test)
     print("Model: ", baseline.name, " \t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
     
+    ## output
+#     Running baseline model on labeled data...
+# Model:  Logistic Regression      Accuracy: 0.9890        F1: 0.9890
+
+# Running SSL model...
+# /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/sklearn/semi_supervised/_label_propagation.py:222: RuntimeWarning: invalid value encountered in true_divide
+#   probabilities /= normalizer
+# Model:  KNN Label Propagation    Accuracy: 0.9989        F1: 0.9989
+
+# Running baseline model with SSL labels on all data...
+# Model:  Logistic Regression      Accuracy: 0.9874        F1: 0.9874
 
 if __name__ == "__main__":
     main()
