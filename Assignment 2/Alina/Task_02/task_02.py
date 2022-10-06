@@ -62,11 +62,12 @@ def read_data(data_path):
     sm = SMOTE(random_state=42, k_neighbors=5)
 
     data_res, labels_res = sm.fit_resample(data, labels)
-    vis_data(data_res, labels_res)
+    # vis_data(data_res, labels_res)
     x_train, x_test, y_train, y_test = train_test_split(data_res, labels_res, test_size=0.2,
                                                         random_state=4, stratify=labels_res)
     x_train_unlab, x_train_lab, y_train_unlab, y_train_lab = \
         train_test_split(x_train, y_train, test_size=0.3, random_state=4, stratify=y_train)
+    y_train_unlab = pd.Series(-1, index=y_train_unlab.index)
 
     return x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test
 
