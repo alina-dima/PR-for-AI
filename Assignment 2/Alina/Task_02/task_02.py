@@ -6,9 +6,12 @@ from sklearn.metrics import accuracy_score, f1_score
 
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 # TODO: Add imblearn to requirements
 from imblearn.over_sampling import SMOTE  # SMOTE is designed to minimize overfitting due to upsampling,
                                           # and training + testing on the same samples.
+
 
 def vis_data(data, labels):
     ## I copied this code from internet
