@@ -1,7 +1,9 @@
 import pandas as pd
+import numpy as np
 
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.semi_supervised import LabelPropagation
 from sklearn.metrics import accuracy_score, f1_score
 
@@ -89,7 +91,7 @@ def main():
     x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = read_data(data_path)
 
     # Selects the baseline classification and SSL models
-    baseline = Model(GaussianNB(), "Naive Bayes")
+    baseline = Model(LogisticRegression(), "Logistic Regression")
     ssl = Model(LabelPropagation('knn'), "KNN Label Propagation")
 
     # Runs classification model on lab train data and tests it
