@@ -4,6 +4,8 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
+from sklearn.semi_supervised import LabelPropagation, LabelSpreading
+from sklearn.metrics import accuracy_score, f1_score
 
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
@@ -41,18 +43,33 @@ def main():
     data_path = './creditcard.csv'
     data_train_unlabeled, labels_train_unlabeled, data_train_labeled, labels_train_labeled, \
         data_test, labels_test = read_data(data_path)
-    models = [SVC(kernel='linear', decision_function_shape='ovr'), 
-            SVC(kernel='rbf', decision_function_shape='ovr'), 
-            SVC(kernel='sigmoid', decision_function_shape='ovr'), 
-            GaussianNB(), 
-            LogisticRegression()]
+    models = [SVC(kernel='linear', decision_function_shape='ovr')]
+            #   SVC(kernel='rbf', decision_function_shape='ovr'), 
+            #   SVC(kernel='sigmoid', decision_function_shape='ovr'), 
+            #   GaussianNB(), 
+            #   LogisticRegression()]
     model_names = ["Linear SVM", "Rbf SVM", "Sigmoid SVM", "Naive Bayes", "Logisitic Reg"]
 
     idx = 0
     for model in models:
         results = run_model(model, data_train_labeled, labels_train_labeled, data_test, labels_test)
-        print("Model: %.4f \t Accuracy: %.4f \t F1: %.4f" % (model_names[idx], results[0], results[1]))
+        print("Model: " + model_names[idx] + " \t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
         idx += 1
+
+    ssl_models = [LabelPropagation('knn')]
+                #   LabelPropagation('rbf'),
+                #   LabelSpreading('knn'),
+                #   LabelSpreading('rbf')]
+    ssl_model_names = ["KNN Label Propagation", "RBF Label Propagation", "KNN Label Spreading", "RBF Label Spreading"]
+    ssl_train_data = pd.concat([data_train_labeled, data_train_unlabeled], axis=0)
+    ssl_labels = pd.concat([labels_train_labeled, labels_train_unlabeled], axis=0)
+
+    idx = 0
+    for model in ssl_models:
+        results = run_model(model, ssl_train_data, ssl_labels, data_test, labels_test)
+        print("Model: " + ssl_model_names[idx] + " \t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
+        idx += 1
+
 
 if __name__ == "__main__":
     main()
