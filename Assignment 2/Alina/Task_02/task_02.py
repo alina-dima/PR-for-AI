@@ -63,7 +63,7 @@ def read_data(data_path):
                                                         random_state=4, stratify=labels_res)
     x_train_unlab, x_train_lab, y_train_unlab, y_train_lab = \
         train_test_split(x_train, y_train, test_size=0.3, random_state=4, stratify=y_train)
-    y_train_unlab = pd.Series(-1, index=y_train_unlab.index)
+    y_train_unlab = pd.Series(-1, index=y_train_unlab.index, name='Class')
 
     return x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test
 
