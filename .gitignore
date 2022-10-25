@@ -2,3 +2,5 @@
 .ipynb_checkpoints/
 .pycache/
 *.csv
+*.pdf
+Figures/*
