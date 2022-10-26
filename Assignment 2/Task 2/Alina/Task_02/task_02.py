@@ -17,50 +17,26 @@ from imblearn.over_sampling import SMOTE, SVMSMOTE  # SMOTE is designed to minim
                                           # and training + testing on the same samples.
 
 
-def vis_data(data, labels):
-    ## I copied this code from internet
-    pca = PCA(n_components=3)
-    pca.fit(data) 
-    X_pca = pca.transform(data) 
-
-    Xax = X_pca[:,0]
-    Yax = X_pca[:,1]
-    Zax = X_pca[:,2]
-
-    cdict = {0:'red',1:'green'}
-    labl = {0:'0',1:'1'}
-    marker = {0:'*',1:'o'}
-    alpha = {0:.3, 1:.5}
-
-    fig = plt.figure(figsize=(7,5))
-    ax = fig.add_subplot(111, projection='3d')
-
-    fig.patch.set_facecolor('white')
-    for l in np.unique(labels):
-        ix=np.where(labels==l)
-        ax.scatter(Xax[ix], Yax[ix], Zax[ix], c=cdict[l], s=40,
-                label=labl[l], marker=marker[l], alpha=alpha[l])
-    # for loop ends
-    ax.set_xlabel("First Principal Component", fontsize=14)
-    ax.set_ylabel("Second Principal Component", fontsize=14)
-    ax.set_zlabel("Third Principal Component", fontsize=14)
-
-    ax.legend()
-    plt.show()
-
-
 def read_data(data_path):
+    """
+    Reads and processes data from specified path in data_path. 
+    Data is balanced with SMOTE, and split into test, labelled train, and unlabelled train sets.
+
+    Return: unlabelled and labelled sets, test set, where x_jjjj are data and y_jjjj are labels.
+    """
     df = pd.read_csv(data_path)
     df = df.drop(columns=["Amount", "Time"])
     labels = df["Class"]
     data = df.drop(columns=["Class"])
 
+    # Oversamples data
     sm = SMOTE(sampling_strategy='minority',random_state=42, k_neighbors=5)
-
     data_res, labels_res = sm.fit_resample(data, labels)
-    # vis_data(data_res, labels_res)
+
+    # Split into train and test
     x_train, x_test, y_train, y_test = train_test_split(data_res, labels_res, test_size=0.2,
                                                         random_state=4, stratify=labels_res)
+    # Split train into unlabelled and labelled train sets
     x_train_unlab, x_train_lab, y_train_unlab, y_train_lab = \
         train_test_split(x_train, y_train, test_size=0.3, random_state=4, stratify=y_train)
     y_train_unlab = pd.Series(-1, index=y_train_unlab.index, name='Class')
@@ -69,6 +45,9 @@ def read_data(data_path):
 
 
 def run_model(model, train_data, train_labels, test_data, test_labels):
+    """
+    Runs a model and returns accuracy and f1
+    """
     model.fit(train_data, train_labels)
     yhat = model.predict(test_data)
     yhat = [int(i) for i in yhat]
@@ -108,32 +87,6 @@ def main():
     print("Running baseline model with SSL labels on all data...")
     results, _ = run_model(baseline.model, x_train, y_train_ssl, x_test, y_test)
     print("Model: ", baseline.name, " \t Accuracy: %.4f \t F1: %.4f" % (results[0], results[1]))
-    
-    ## output
-    ## LR with SVMSMOTE
-#     Running baseline model on labeled data...
-# Model:  Logistic Regression      Accuracy: 0.9890        F1: 0.9890
-
-# Running SSL model...
-# /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/sklearn/semi_supervised/_label_propagation.py:222: RuntimeWarning: invalid value encountered in true_divide
-#   probabilities /= normalizer
-# Model:  KNN Label Propagation    Accuracy: 0.9989        F1: 0.9989
-
-# Running baseline model with SSL labels on all data...
-# Model:  Logistic Regression      Accuracy: 0.9874        F1: 0.9874
-
-## Random Forest with SMOTE
-
-# Running baseline model on labeled data...
-# Model:  Random Forest      Accuracy: 0.9996        F1: 0.9996
-
-# Running SSL model...
-# /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/sklearn/semi_supervised/_label_propagation.py:222: RuntimeWarning: invalid value encountered in true_divide
-#   probabilities /= normalizer
-# Model:  KNN Label Propagation    Accuracy: 0.9981        F1: 0.9981
-
-# Running baseline model with SSL labels on all data...
-# Model:  Logistic Regression      Accuracy: 0.9992        F1: 0.9992
 
 if __name__ == "__main__":
     main()
