@@ -1,20 +1,11 @@
 import pandas as pd
-import numpy as np
 
-from sklearn.svm import SVC
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
 from sklearn.semi_supervised import LabelPropagation
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
-
-from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
-from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
 # TODO: Add imblearn to requirements
-from imblearn.over_sampling import SMOTE, SVMSMOTE  # SMOTE is designed to minimize overfitting due to upsampling,
-                                          # and training + testing on the same samples.
+from imblearn.over_sampling import SMOTE
 
 
 def read_data(data_path):
@@ -67,7 +58,7 @@ def main():
     x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = read_data(data_path)
 
     # Selects the baseline classification and SSL models
-    baseline = Model(RandomForestClassifier(max_depth=200), "Random Forest")
+    baseline = Model(RandomForestClassifier(), "Random Forest")
     ssl = Model(LabelPropagation(kernel='knn'), "KNN Label Propagation")
 
     # Runs classification model on lab train data and tests it
