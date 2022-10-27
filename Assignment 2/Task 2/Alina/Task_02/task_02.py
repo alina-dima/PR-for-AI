@@ -1,5 +1,3 @@
-from cProfile import label
-from enum import unique
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +8,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 # TODO: Add imblearn to requirements
 from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import RandomUnderSampler
 
 
 def read_data(data_path):
@@ -24,20 +23,29 @@ def read_data(data_path):
     labels = df["Class"]
     data = df.drop(columns=["Class"])
 
+    ratio = min(labels.value_counts())/(max(labels.value_counts())/2)
+    # Undersamples half of majority class 
+    rnd_under_sam = RandomUnderSampler(sampling_strategy=ratio, random_state=42)
+    data_res, labels_res = rnd_under_sam.fit_resample(data, labels)
     # Oversamples data
     sm = SMOTE(sampling_strategy='minority',random_state=42)
-    data_res, labels_res = sm.fit_resample(data, labels)
+    data_res, labels_res = sm.fit_resample(data_res, labels_res)
+    return data_res, labels_res
 
+
+def split_data(data, labels):
+    """
+    Splits data into test, and labelled and unlaballed train sets.
+    """
     # Split into train and test
-    x_train, x_test, y_train, y_test = train_test_split(data_res, labels_res, test_size=0.2,
-                                                        stratify=labels_res)
+    x_train, x_test, y_train, y_test = train_test_split(data, labels, test_size=0.2,
+                                                        stratify=labels)
     # Split train into unlabelled and labelled train sets
     x_train_unlab, x_train_lab, y_train_unlab, y_train_lab = \
         train_test_split(x_train, y_train, test_size=0.3, stratify=y_train)
     y_train_unlab = pd.Series(-1, index=y_train_unlab.index, name='Class')
 
     return x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test
-
 
 def run_model(model, train_data, train_labels, test_data, test_labels):
     """
@@ -68,6 +76,8 @@ class Model:
 
 def main():
     data_path = './creditcard.csv'
+    # Reading and balancing data
+    data, labels = read_data(data_path)
 
     # Selects the baseline classification and SSL models
     baseline = Model(RandomForestClassifier(), "Random Forest")
@@ -81,7 +91,7 @@ def main():
     n_iter = 100
 
     for iter in range(n_iter):
-        x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = read_data(data_path)
+        x_train_unlab, y_train_unlab, x_train_lab, y_train_lab, x_test, y_test = split_data(data, labels)
 
         # Runs classification model on lab train data and tests it
         print(iter, "Running baseline model on labeled data...")
@@ -104,9 +114,9 @@ def main():
         accuracy_baseline_ssl.append(results[0])
         f1_baseline_ssl.append(results[1])
 
-        plot_results(accuracy_baseline, f1_baseline, 'Baseline')
-        plot_results(accuracy_ssl, f1_ssl , 'Semi-supervised')
-        plot_results(accuracy_baseline_ssl, f1_baseline_ssl, 'Baseline+semi-supervised')
+    plot_results(accuracy_baseline, f1_baseline, 'Baseline')
+    plot_results(accuracy_ssl, f1_ssl , 'Semi-supervised')
+    plot_results(accuracy_baseline_ssl, f1_baseline_ssl, 'Baseline+semi-supervised')
 
 if __name__ == "__main__":
     main()
