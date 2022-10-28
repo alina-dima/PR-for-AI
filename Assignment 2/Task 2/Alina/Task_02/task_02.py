@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from sklearn.semi_supervised import LabelPropagation
 from sklearn.ensemble import RandomForestClassifier
@@ -81,7 +82,7 @@ def main():
 
     # Selects the baseline classification and SSL models
     baseline = Model(RandomForestClassifier(), "Random Forest")
-    ssl = Model(LabelPropagation(kernel='knn'), "KNN Label Propagation")
+    ssl = Model(LabelPropagation(kernel='knn', n_jobs=6), "KNN Label Propagation")
     accuracy_baseline = []
     f1_baseline = []
     accuracy_ssl = []
@@ -102,21 +103,31 @@ def main():
         # Runs SSL model on all training data and tests it
         x_train = pd.concat([x_train_lab, x_train_unlab], axis=0)
         y_ssl = pd.concat([y_train_lab, y_train_unlab], axis=0)
-        print("Running SSL model...")
+        #print("Running SSL model...")
         results, ssl_model = run_model(ssl.model, x_train, y_ssl, x_test, y_test)
         accuracy_ssl.append(results[0])
         f1_ssl.append(results[1])
 
         # Runs baseline model on all training data using the labels obtained from SSL and tests it
         y_train_ssl = ssl_model.transduction_
-        print("Running baseline model with SSL labels on all data...")
+        #print("Running baseline model with SSL labels on all data...")
         results, _ = run_model(baseline.model, x_train, y_train_ssl, x_test, y_test)
         accuracy_baseline_ssl.append(results[0])
         f1_baseline_ssl.append(results[1])
 
-    plot_results(accuracy_baseline, f1_baseline, 'Baseline')
-    plot_results(accuracy_ssl, f1_ssl , 'Semi-supervised')
-    plot_results(accuracy_baseline_ssl, f1_baseline_ssl, 'Baseline+semi-supervised')
+    # plot_results(accuracy_baseline, f1_baseline, 'Baseline')
+    # plot_results(accuracy_ssl, f1_ssl , 'Semi-supervised')
+    # plot_results(accuracy_baseline_ssl, f1_baseline_ssl, 'Baseline+semi-supervised')
+    print("Saving...")
+    np.save('baseline_acc', np.asarray(accuracy_baseline))
+    np.save('baseline_f1', np.asarray(f1_baseline))
+    np.save('ssl_acc', np.asarray(accuracy_ssl))
+    np.save('ssl_f1', np.asarray(f1_ssl))
+    np.save('base_ssl_acc', np.asarray(accuracy_baseline_ssl))
+    np.save('base_ssl_f1', np.asarray(f1_baseline_ssl))
+    print("Program finished")
+
+
 
 if __name__ == "__main__":
     main()
