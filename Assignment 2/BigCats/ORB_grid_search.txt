@@ -1,0 +1,109 @@
+
+n_clusters=50
++----+----------+----------------+-------------+----------+---------------+-----------+------------+------------+
+|    | method   |   n_estimators | criterion   | kernel   |   n_neighbors | weights   |   f1-score |         sd |
+|----+----------+----------------+-------------+----------+---------------+-----------+------------+------------|
+|  0 | knn      |            nan | nan         | nan      |             3 | distance  |   0.443837 | 0.0525906  |
+|  1 | knn      |            nan | nan         | nan      |             3 | uniform   |   0.415594 | 0.0205763  |
+|  2 | knn      |            nan | nan         | nan      |             5 | distance  |   0.471904 | 0.0122969  |
+|  3 | knn      |            nan | nan         | nan      |             5 | uniform   |   0.450068 | 0.0187326  |
+|  4 | knn      |            nan | nan         | nan      |             7 | distance  |   0.446864 | 0.00300332 |
+|  5 | knn      |            nan | nan         | nan      |             7 | uniform   |   0.446864 | 0.00300332 |
+|  6 | rfc      |             50 | entropy     | nan      |           nan | nan       |   0.509434 | 0.0215296  |
+|  7 | rfc      |             50 | gini        | nan      |           nan | nan       |   0.456181 | 0.0213912  |
+|  8 | rfc      |             50 | log_loss    | nan      |           nan | nan       |   0.509434 | 0.0215296  |
+|  9 | rfc      |            100 | entropy     | nan      |           nan | nan       |   0.503145 | 0.0424073  |
+| 10 | rfc      |            100 | gini        | nan      |           nan | nan       |   0.471816 | 0.0539675  |
+| 11 | rfc      |            100 | log_loss    | nan      |           nan | nan       |   0.503145 | 0.0424073  |
+| 12 | rfc      |            150 | entropy     | nan      |           nan | nan       |   0.506289 | 0.043444   |
+| 13 | rfc      |            150 | gini        | nan      |           nan | nan       |   0.493711 | 0.0617166  |
+| 14 | rfc      |            150 | log_loss    | nan      |           nan | nan       |   0.506289 | 0.043444   |
+| 15 | rfc      |            200 | entropy     | nan      |           nan | nan       |   0.484453 | 0.055769   |
+| 16 | rfc      |            200 | gini        | nan      |           nan | nan       |   0.490625 | 0.0327103  |
+| 17 | rfc      |            200 | log_loss    | nan      |           nan | nan       |   0.484453 | 0.055769   |
+| 18 | svm      |            nan | nan         | linear   |           nan | nan       |   0.475225 | 0.0630032  |
+| 19 | svm      |            nan | nan         | poly     |           nan | nan       |   0.515811 | 0.0637731  |
+| 20 | svm      |            nan | nan         | rbf      |           nan | nan       |   0.515606 | 0.00709957 |
+| 21 | svm      |            nan | nan         | sigmoid  |           nan | nan       |   0.193852 | 0.029709   |
++----+----------+----------------+-------------+----------+---------------+-----------+------------+------------+
+n_clusters=100
++----+----------+----------------+-------------+----------+---------------+-----------+------------+------------+
+|    | method   |   n_estimators | criterion   | kernel   |   n_neighbors | weights   |   f1-score |         sd |
+|----+----------+----------------+-------------+----------+---------------+-----------+------------+------------|
+|  0 | knn      |            nan | nan         | nan      |             3 | distance  |   0.428202 | 0.0255232  |
+|  1 | knn      |            nan | nan         | nan      |             3 | uniform   |   0.396814 | 0.0174851  |
+|  2 | knn      |            nan | nan         | nan      |             5 | distance  |   0.443661 | 0.0448278  |
+|  3 | knn      |            nan | nan         | nan      |             5 | uniform   |   0.409216 | 0.0497568  |
+|  4 | knn      |            nan | nan         | nan      |             7 | distance  |   0.450038 | 0.0343812  |
+|  5 | knn      |            nan | nan         | nan      |             7 | uniform   |   0.443661 | 0.0612895  |
+|  6 | rfc      |             50 | entropy     | nan      |           nan | nan       |   0.484482 | 0.0351589  |
+|  7 | rfc      |             50 | gini        | nan      |           nan | nan       |   0.465644 | 0.0239455  |
+|  8 | rfc      |             50 | log_loss    | nan      |           nan | nan       |   0.484482 | 0.0351589  |
+|  9 | rfc      |            100 | entropy     | nan      |           nan | nan       |   0.493799 | 0.0486512  |
+| 10 | rfc      |            100 | gini        | nan      |           nan | nan       |   0.487451 | 0.0231406  |
+| 11 | rfc      |            100 | log_loss    | nan      |           nan | nan       |   0.493799 | 0.0486512  |
+| 12 | rfc      |            150 | entropy     | nan      |           nan | nan       |   0.503145 | 0.0331607  |
+| 13 | rfc      |            150 | gini        | nan      |           nan | nan       |   0.484394 | 0.00709957 |
+| 14 | rfc      |            150 | log_loss    | nan      |           nan | nan       |   0.503145 | 0.0331607  |
+| 15 | rfc      |            200 | entropy     | nan      |           nan | nan       |   0.509434 | 0.0365645  |
+| 16 | rfc      |            200 | gini        | nan      |           nan | nan       |   0.506289 | 0.0177536  |
+| 17 | rfc      |            200 | log_loss    | nan      |           nan | nan       |   0.509434 | 0.0365645  |
+| 18 | svm      |            nan | nan         | linear   |           nan | nan       |   0.446864 | 0.00300332 |
+| 19 | svm      |            nan | nan         | poly     |           nan | nan       |   0.509493 | 0.0532295  |
+| 20 | svm      |            nan | nan         | rbf      |           nan | nan       |   0.543702 | 0.0485949  |
+| 21 | svm      |            nan | nan         | sigmoid  |           nan | nan       |   0.319197 | 0.134139   |
++----+----------+----------------+-------------+----------+---------------+-----------+------------+------------+
+n_clusters=150
++----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------+
+|    | method   |   n_estimators | criterion   | kernel   |   n_neighbors | weights   |   f1-score |        sd |
+|----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------|
+|  0 | knn      |            nan | nan         | nan      |             3 | distance  |   0.465585 | 0.0119939 |
+|  1 | knn      |            nan | nan         | nan      |             3 | uniform   |   0.409363 | 0.0098807 |
+|  2 | knn      |            nan | nan         | nan      |             5 | distance  |   0.421824 | 0.0313377 |
+|  3 | knn      |            nan | nan         | nan      |             5 | uniform   |   0.396726 | 0.0453173 |
+|  4 | knn      |            nan | nan         | nan      |             7 | distance  |   0.415565 | 0.0218403 |
+|  5 | knn      |            nan | nan         | nan      |             7 | uniform   |   0.374978 | 0.0241498 |
+|  6 | rfc      |             50 | entropy     | nan      |           nan | nan       |   0.427996 | 0.0664657 |
+|  7 | rfc      |             50 | gini        | nan      |           nan | nan       |   0.415565 | 0.0630139 |
+|  8 | rfc      |             50 | log_loss    | nan      |           nan | nan       |   0.427996 | 0.0664657 |
+|  9 | rfc      |            100 | entropy     | nan      |           nan | nan       |   0.424822 | 0.0512302 |
+| 10 | rfc      |            100 | gini        | nan      |           nan | nan       |   0.425028 | 0.0290854 |
+| 11 | rfc      |            100 | log_loss    | nan      |           nan | nan       |   0.424822 | 0.0512302 |
+| 12 | rfc      |            150 | entropy     | nan      |           nan | nan       |   0.452977 | 0.0496513 |
+| 13 | rfc      |            150 | gini        | nan      |           nan | nan       |   0.453124 | 0.014021  |
+| 14 | rfc      |            150 | log_loss    | nan      |           nan | nan       |   0.452977 | 0.0496513 |
+| 15 | rfc      |            200 | entropy     | nan      |           nan | nan       |   0.446688 | 0.0551359 |
+| 16 | rfc      |            200 | gini        | nan      |           nan | nan       |   0.440663 | 0.0524708 |
+| 17 | rfc      |            200 | log_loss    | nan      |           nan | nan       |   0.446688 | 0.0551359 |
+| 18 | svm      |            nan | nan         | linear   |           nan | nan       |   0.443602 | 0.0555053 |
+| 19 | svm      |            nan | nan         | poly     |           nan | nan       |   0.515547 | 0.022133  |
+| 20 | svm      |            nan | nan         | rbf      |           nan | nan       |   0.490654 | 0.0291822 |
+| 21 | svm      |            nan | nan         | sigmoid  |           nan | nan       |   0.331394 | 0.0398067 |
++----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------+
+n_clusters=200
++----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------+
+|    | method   |   n_estimators | criterion   | kernel   |   n_neighbors | weights   |   f1-score |        sd |
+|----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------|
+|  0 | knn      |            nan | nan         | nan      |             3 | distance  |   0.387468 | 0.0128063 |
+|  1 | knn      |            nan | nan         | nan      |             3 | uniform   |   0.356257 | 0.0187914 |
+|  2 | knn      |            nan | nan         | nan      |             5 | distance  |   0.384324 | 0.0142021 |
+|  3 | knn      |            nan | nan         | nan      |             5 | uniform   |   0.362576 | 0.0388562 |
+|  4 | knn      |            nan | nan         | nan      |             7 | distance  |   0.406336 | 0.0256854 |
+|  5 | knn      |            nan | nan         | nan      |             7 | uniform   |   0.378328 | 0.0593696 |
+|  6 | rfc      |             50 | entropy     | nan      |           nan | nan       |   0.37827  | 0.0411369 |
+|  7 | rfc      |             50 | gini        | nan      |           nan | nan       |   0.387498 | 0.014032  |
+|  8 | rfc      |             50 | log_loss    | nan      |           nan | nan       |   0.37827  | 0.0411369 |
+|  9 | rfc      |            100 | entropy     | nan      |           nan | nan       |   0.437724 | 0.0724861 |
+| 10 | rfc      |            100 | gini        | nan      |           nan | nan       |   0.409363 | 0.0375205 |
+| 11 | rfc      |            100 | log_loss    | nan      |           nan | nan       |   0.437724 | 0.0724861 |
+| 12 | rfc      |            150 | entropy     | nan      |           nan | nan       |   0.440751 | 0.0448225 |
+| 13 | rfc      |            150 | gini        | nan      |           nan | nan       |   0.43746  | 0.0121346 |
+| 14 | rfc      |            150 | log_loss    | nan      |           nan | nan       |   0.440751 | 0.0448225 |
+| 15 | rfc      |            200 | entropy     | nan      |           nan | nan       |   0.456357 | 0.0476991 |
+| 16 | rfc      |            200 | gini        | nan      |           nan | nan       |   0.424969 | 0.012668  |
+| 17 | rfc      |            200 | log_loss    | nan      |           nan | nan       |   0.456357 | 0.0476991 |
+| 18 | svm      |            nan | nan         | linear   |           nan | nan       |   0.45621  | 0.0178792 |
+| 19 | svm      |            nan | nan         | poly     |           nan | nan       |   0.528096 | 0.0203284 |
+| 20 | svm      |            nan | nan         | rbf      |           nan | nan       |   0.518692 | 0.0214139 |
+| 21 | svm      |            nan | nan         | sigmoid  |           nan | nan       |   0.394052 | 0.091563  |
++----+----------+----------------+-------------+----------+---------------+-----------+------------+-----------+
