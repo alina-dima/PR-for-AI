@@ -11,3 +11,4 @@ fuzzy-c-means==1.6.4
 tqdm==4.64.1
 imgaug==0.4.0
 notebook==6.5.1
+tabulate==0.8.10
